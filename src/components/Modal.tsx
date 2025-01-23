@@ -4,7 +4,6 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogClose,
 } from "./ui/dialog";
 import { useState } from "react";
 
@@ -13,6 +12,7 @@ interface PropsModal {
     'button'?: {
         'handleClick': (product: Product) => void;
         'labelBtn': string;
+        'setControlModal': (open: boolean) => void;
     }
 }
 
@@ -20,6 +20,34 @@ interface PropsModal {
 export function Modal({ product, button }: PropsModal) {
 
     const [sizeSelect, setSizeSelect] = useState<string | number>(product.size.length === 1 ? product.size[0] : '');
+
+    const handleAddToProduct = () => {
+        try {
+
+            if (sizeSelect) {
+
+                const newProduct = {
+                    'id': product.id,
+                    'name': product.name,
+                    'photo': product.photo,
+                    'price': product.price,
+                    'size': [sizeSelect],
+                    'category': product.category
+                };
+
+                button?.handleClick(newProduct);
+
+                button?.setControlModal(false);
+
+                return;
+            }
+
+            alert('Selecione um tamanhos');
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const desktop = window.innerWidth >= 1024;
 
@@ -73,36 +101,16 @@ export function Modal({ product, button }: PropsModal) {
 
                             {button && (
 
-                                <DialogClose asChild>
 
-                                    <button
-                                        className="bg-[#f76382] text-zinc-50 rounded-md font-semibold w-full py-2 active:scale-95 active:shadow-inner active:shadow-zinc-900"
-                                        type="button"
-                                        title="Adicionar a sacolinha"
-                                        onClick={() => {
+                                <button
+                                    className="bg-[#f76382] text-zinc-50 rounded-md font-semibold w-full py-2 active:scale-95 active:shadow-inner active:shadow-zinc-900"
+                                    type="button"
+                                    title="Adicionar a sacolinha"
+                                    onClick={() => handleAddToProduct()}
+                                >
+                                    {button.labelBtn}
+                                </button>
 
-                                            if (sizeSelect) {
-
-                                                const newProduct = {
-                                                    'id': product.id,
-                                                    'name': product.name,
-                                                    'photo': product.photo,
-                                                    'price': product.price,
-                                                    'size': [sizeSelect],
-                                                    'category': product.category
-                                                };
-
-                                                button.handleClick(newProduct);
-                                                return;
-                                            }
-
-                                            alert('Selecione um tamanho');
-                                        }}
-                                    >
-                                        {button.labelBtn}
-                                    </button>
-
-                                </DialogClose>
                             )}
 
                         </div>
@@ -152,38 +160,16 @@ export function Modal({ product, button }: PropsModal) {
 
                                     {button && (
 
-                                        <DialogClose asChild>
 
-                                            <button
-                                                className="bg-[#f76382] text-zinc-50 rounded-md font-semibold w-full py-2 active:scale-95 active:shadow-inner active:shadow-zinc-900 text-lg"
-                                                type="button"
-                                                title="Adicionar a sacolinha"
-                                                onClick={() => {
+                                        <button
+                                            className="bg-[#f76382] text-zinc-50 rounded-md font-semibold w-full py-2 active:scale-95 active:shadow-inner active:shadow-zinc-900 text-lg"
+                                            type="button"
+                                            title="Adicionar a sacolinha"
+                                            onClick={() => handleAddToProduct()}
+                                        >
+                                            {button.labelBtn}
+                                        </button>
 
-                                                    if (sizeSelect) {
-
-                                                        const newProduct = {
-                                                            'id': product.id,
-                                                            'name': product.name,
-                                                            'photo': product.photo,
-                                                            'price': product.price,
-                                                            'size': [sizeSelect],
-                                                            'category': product.category
-                                                        };
-
-                                                        console.log(newProduct);
-
-                                                        button.handleClick(newProduct);
-                                                        return;
-                                                    }
-
-                                                    alert('Selecione um tamanho');
-                                                }}
-                                            >
-                                                {button.labelBtn}
-                                            </button>
-                                            
-                                        </DialogClose>
                                     )}
                                 </div>
 

@@ -10,10 +10,9 @@ export default function Bag() {
     const { bag, removelAllBag, removeFromBag, addToBag } = useBag();
 
     return (
-        <main className="p-5 flex flex-col gap-5">
+        <main className="p-5 flex flex-col gap-5 relative">
 
             <div className="flex justify-start items-center gap-5">
-
 
                 <Link to={'/'}>
                     <button

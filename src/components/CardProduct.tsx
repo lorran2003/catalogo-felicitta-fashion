@@ -4,6 +4,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Modal } from "./Modal";
+import { useState } from "react";
 
 interface PropsCardProducts {
   'product': Product;
@@ -13,10 +14,12 @@ interface PropsCardProducts {
 
 export function CardProduct({ product, handleClick, labelBtn }: PropsCardProducts) {
 
-  return (
-    <Dialog>
+  const [controlModal, setControlModal] = useState<boolean>(false);
 
-      <Modal product={product} button={{ handleClick, labelBtn }} />
+  return (
+    <Dialog open={controlModal} onOpenChange={setControlModal}>
+
+      <Modal product={product} button={{ handleClick, labelBtn, setControlModal }} />
 
       <div className="rounded-md w-[45%] lg:w-1/5">
 

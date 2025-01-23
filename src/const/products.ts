@@ -36,9 +36,12 @@ import saltoVilaRosa from '../assets/calçado/salto_vilaRosa.jpeg';
 
 export const category = {vestido: 'Vestido', macaquinho: 'Macaquinho', calcado: 'Calçado', conjunto: 'Conjunto'};
 
+let id = 0;
+
 const generateId = () => {
-    return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+    return `${id++}`;
 };
+
 
 export const products = [
     {

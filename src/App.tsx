@@ -1,9 +1,9 @@
 import Filter from "./components/Filter";
 import { Header } from "./components/Header";
-import { CardProduct } from "./components/CardProduct";
 import { category, products } from "./const/products";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { useBag } from "./hooks/useBag";
+import Loading from "./components/Loading";
 
 export interface Product {
   'id': string;
@@ -15,6 +15,8 @@ export interface Product {
 }
 
 const productsNewPrice: Product[] = products.map((product) => ({ ...product, 'price': product.category === category.calcado ? (product.price + 20) : (product.price + 25) }));
+
+const CardProduct = lazy(() => import('./components/CardProduct'));
 
 export default function App() {
 
@@ -33,15 +35,19 @@ export default function App() {
 
         <Filter activeButton={activeButtonFilter} setActiveButtonFilter={setActiveButtonFilter} numberProducts={filterProducts.length} />
 
-        <section className="flex flex-wrap justify-center gap-5">
-          {filterProducts.map((product) => <CardProduct
-            key={product.id}
-            product={product}
-            handleClick={addToBag}
-            labelBtn="Adicionar"
-          />
-          )}
-        </section>
+        <Suspense fallback={<Loading />}>
+
+          <section className="flex flex-wrap justify-center gap-5">
+            {filterProducts.map((product) => <CardProduct
+              key={product.id}
+              product={product}
+              handleClick={addToBag}
+              labelBtn="Adicionar"
+            />
+            )}
+          </section>
+
+        </Suspense>
       </main>
     </div>
   )

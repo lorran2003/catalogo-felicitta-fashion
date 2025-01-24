@@ -12,7 +12,7 @@ interface PropsCardProducts {
   'labelBtn': string;
 }
 
-export function CardProduct({ product, handleClick, labelBtn }: PropsCardProducts) {
+export default function CardProduct({ product, handleClick, labelBtn }: PropsCardProducts) {
 
   const [controlModal, setControlModal] = useState<boolean>(false);
 

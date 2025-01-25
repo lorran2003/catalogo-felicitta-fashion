@@ -4,10 +4,31 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { message } from "../const/message";
 import { InfoProductToBag } from "@/components/InfoProductToBag";
 import { Link } from "react-router";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+
+const notifyNotProduct = () => toast.error('Não há produtos na sacola!', {
+    position: "top-left",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+  });
 
 export default function Bag() {
 
     const { bag, removelAllBag, removeFromBag, addToBag } = useBag();
+
+    const handleClickBuy = () => {
+        if (bag.length > 0) {
+            message(bag);
+            return;
+        }
+
+        notifyNotProduct();
+    }
 
     return (
         <main className="p-5 flex flex-col gap-5 relative">
@@ -55,12 +76,26 @@ export default function Bag() {
                 <button
                     className="bg-[#f76382] text-zinc-50 rounded-md font-semibold w-full py-3 active:scale-95 active:shadow-inner active:shadow-zinc-900"
                     type="button"
-                    onClick={() => message(bag)}
+                    onClick={() => handleClickBuy()}
                 >
                     Comprar
                 </button>
 
             </div>
+
+            <ToastContainer
+                position="top-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover={false}
+                theme="light"
+                transition={Bounce}
+            />
 
         </main>
     )

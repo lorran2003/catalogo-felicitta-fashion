@@ -4,6 +4,7 @@ import { category, products } from "./const/products";
 import { lazy, Suspense, useState } from "react";
 import { useBag } from "./hooks/useBag";
 import Loading from "./components/Loading";
+import { Bounce, ToastContainer } from 'react-toastify';
 
 export interface Product {
   'id': string;
@@ -49,6 +50,20 @@ export default function App() {
 
         </Suspense>
       </main>
+
+      <ToastContainer
+        position="top-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Bounce}
+      />
     </div>
   )
 }

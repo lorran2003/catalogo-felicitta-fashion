@@ -6,6 +6,7 @@ import {
     DialogTitle,
 } from "./ui/dialog";
 import { useState } from "react";
+import { notifyError, notifySuccess } from "@/const/Notification";
 
 interface PropsModal {
     'product': Product;
@@ -16,6 +17,9 @@ interface PropsModal {
     }
 }
 
+const msgSuccess = () => notifySuccess('Adicionado a sacola!');
+const msgError = () => notifyError('Erro ao adiconar!');
+const msgSelectSize = () => notifyError('Selecione o tamanho!');
 
 export function Modal({ product, button }: PropsModal) {
 
@@ -39,13 +43,16 @@ export function Modal({ product, button }: PropsModal) {
 
                 button?.setControlModal(false);
 
+                msgSuccess();
+
                 return;
             }
 
-            alert('Selecione um tamanhos');
+            msgSelectSize();
 
         } catch (error) {
-            console.log(error);
+            msgError();
+            console.error(error);
         }
     };
 

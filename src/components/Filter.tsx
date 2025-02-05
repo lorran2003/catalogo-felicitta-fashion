@@ -1,10 +1,12 @@
+import { category } from "@/const/products";
+
 interface Props {
     activeButton: string;
     setActiveButtonFilter: (item: string) => void;
     numberProducts: number;
 }
 
-const category = ['Todos', 'Vestido', 'Macaquinho', 'Calçado', 'Conjunto'];
+const _category = ['Todos', ...Object.values(category)];
 
 
 export default function Filter({ activeButton, setActiveButtonFilter, numberProducts }: Props) {
@@ -15,7 +17,7 @@ export default function Filter({ activeButton, setActiveButtonFilter, numberProd
 
 
                 {
-                    category.map((value) =>
+                    _category.map((value) =>
                         <button
                             key={value}
                             type="button"

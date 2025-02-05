@@ -14,17 +14,15 @@ export interface ProductToBag {
 export function useBag() {
 
     const [bag, setBag] = useState<ProductToBag[]>(() => {
-        const savedBag = sessionStorage.getItem('bag');
+        const savedBag = localStorage.getItem('bag');
         return savedBag ? JSON.parse(savedBag) : [];
     });
 
     useEffect(() => {
-        sessionStorage.setItem('bag', JSON.stringify(bag));
+        localStorage.setItem('bag', JSON.stringify(bag));
     }, [bag])
 
     const addToBag = (product: Product | ProductToBag) => {
-
-        console.log(bag)
 
         const sizeProduct = Array.isArray(product.size) ? product.size[0] : product.size;
 

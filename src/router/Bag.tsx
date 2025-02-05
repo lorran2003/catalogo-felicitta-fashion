@@ -5,25 +5,39 @@ import { message } from "../const/message";
 import { InfoProductToBag } from "@/components/InfoProductToBag";
 import { Link } from "react-router";
 import { Bounce, toast, ToastContainer } from "react-toastify";
+import {
+    Dialog,
+    DialogContent,
+    DialogTrigger,
+    DialogClose,
+} from "@/components/ui/dialog"
+import { SelectSeller } from "@/components/SelectSeller";
+import { SellerInterface } from "@/const/Seller";
+import { useState } from "react";
 
 const notifyNotProduct = () => toast.error('Não há produtos na sacola!', {
     position: "top-left",
-    autoClose: 5000,
+    autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: false,
     draggable: true,
     progress: undefined,
     theme: "colored",
-  });
+});
 
 export default function Bag() {
+
+    const [seller, setSeller] = useState<SellerInterface[]>([]);
+
+    const [clientName, setClientName] = useState<string>('');
 
     const { bag, removelAllBag, removeFromBag, addToBag } = useBag();
 
     const handleClickBuy = () => {
         if (bag.length > 0) {
-            message(bag);
+
+            message(bag, seller, clientName);
             return;
         }
 
@@ -31,72 +45,114 @@ export default function Bag() {
     }
 
     return (
-        <main className="p-5 flex flex-col gap-5 relative">
 
-            <div className="flex justify-start items-center gap-5">
+        <Dialog>
 
-                <Link to={'/'}>
+            <main className="p-5 flex flex-col gap-5 relative">
+
+
+                <DialogContent className="max-w-[90%] lg:w-2/5 rounded-md bg-[#eee]">
+
+                    <div className="flex flex-col gap-3">
+
+                        <div className="flex flex-wrap justify-start items-center gap-1">
+                            <label htmlFor="nome do cliente" className="text-lg">Digite seu nome:</label>
+                            <input 
+                            type="text" 
+                            name="nome do cliente"
+                             id="nameClient"
+                              title="Digite seu nome" 
+                              className="p-1 focus:outline-[#f76382] shadow rounded" 
+                              onChange={(e) => setClientName(e.target.value)}
+                              />
+                        </div>
+
+                        <SelectSeller setSeller={setSeller} />
+                    </div>
+
+                    <DialogClose>
+                        <button
+                            className="bg-[#f76382] text-zinc-50 rounded-md font-semibold w-full py-3 active:scale-95 active:shadow-inner active:shadow-zinc-900"
+                            aria-label="Comprar"
+                            title="Enviar pedido"
+                            type="submit"
+                            onClick={() => handleClickBuy()}
+                        >
+                            Enviar
+                        </button>
+                    </DialogClose>
+                </DialogContent>
+
+                <div className="flex justify-start items-center gap-5">
+
+                    <Link to={'/'}>
+                        <button
+                            type="button"
+                            title="Voltar"
+                            className="py-1 px-2 flex justify-center items-center active:scale-95 bg-[#f76382] text-zinc-50 rounded-md active:shadow-inner"
+                        >
+                            <FontAwesomeIcon icon={faArrowLeft} size="xl" />
+                        </button>
+                    </Link>
+
+                    <h1 className="font-semibold text-xl" >Total de produtos: {bag.reduce((prev, cur) => prev + cur.amount, 0)}</h1>
+
+                </div>
+
+                <h2 className="font-semibold text-xl" >Valor total: {bag.reduce((prev, cur) => prev + cur.price * cur.amount, 0).toFixed(2)}</h2>
+
+                <section className="flex flex-wrap justify-center gap-5">
+
+                    {bag.map((item, index) => <InfoProductToBag
+                        key={index}
+                        productToBag={item}
+                        addToBag={addToBag}
+                        removeFromBag={removeFromBag}
+                    />
+                    )}
+
+                </section>
+
+
+                <div className="flex justify-center items-center gap-5 w-full">
                     <button
+                        className="bg-zinc-800 text-zinc-50 rounded-md font-semibold w-full py-3 active:scale-95 active:shadow-inner active:shadow-zinc-900"
                         type="button"
-                        title="Voltar"
-                        className="py-1 px-2 flex justify-center items-center active:scale-95 bg-[#f76382] text-zinc-50 rounded-md active:shadow-inner"
+                        onClick={() => removelAllBag()}
                     >
-                        <FontAwesomeIcon icon={faArrowLeft} size="xl" />
+                        Remover todos
                     </button>
-                </Link>
 
-                <h1 className="font-semibold text-xl" >Total de produtos: {bag.reduce((prev, cur) => prev + cur.amount, 0)}</h1>
+                    <DialogTrigger asChild>
 
-            </div>
+                        <button
+                            className="bg-[#f76382] text-zinc-50 rounded-md font-semibold w-full py-3 active:scale-95 active:shadow-inner active:shadow-zinc-900"
+                            type="button"
+                            aria-label="Comprar"
+                            title="Comprar"
+                        >
+                            Comprar
+                        </button>
 
-            <h2 className="font-semibold text-xl" >Valor total: {bag.reduce((prev, cur) => prev + cur.price * cur.amount, 0).toFixed(2)}</h2>
+                    </DialogTrigger>
 
-            <section className="flex flex-wrap justify-center gap-5">
+                </div>
 
-                {bag.map((item, index) => <InfoProductToBag
-                    key={index}
-                    productToBag={item}
-                    addToBag={addToBag}
-                    removeFromBag={removeFromBag}
+                <ToastContainer
+                    position="top-left"
+                    autoClose={2000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss={false}
+                    draggable
+                    pauseOnHover={false}
+                    theme="light"
+                    transition={Bounce}
                 />
-                )}
 
-            </section>
-
-
-            <div className="flex justify-center items-center gap-5 w-full">
-                <button
-                    className="bg-zinc-800 text-zinc-50 rounded-md font-semibold w-full py-3 active:scale-95 active:shadow-inner active:shadow-zinc-900"
-                    type="button"
-                    onClick={() => removelAllBag()}
-                >
-                    Remover todos
-                </button>
-
-                <button
-                    className="bg-[#f76382] text-zinc-50 rounded-md font-semibold w-full py-3 active:scale-95 active:shadow-inner active:shadow-zinc-900"
-                    type="button"
-                    onClick={() => handleClickBuy()}
-                >
-                    Comprar
-                </button>
-
-            </div>
-
-            <ToastContainer
-                position="top-left"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss={false}
-                draggable
-                pauseOnHover={false}
-                theme="light"
-                transition={Bounce}
-            />
-
-        </main>
+            </main>
+        </Dialog>
     )
 }

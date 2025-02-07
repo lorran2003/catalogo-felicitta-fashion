@@ -1,87 +1,44 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useBag } from "../hooks/useBag"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { message } from "../const/message";
 import { InfoProductToBag } from "@/components/InfoProductToBag";
 import { Link } from "react-router";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, ToastContainer } from "react-toastify";
 import {
     Dialog,
-    DialogContent,
-    DialogTrigger,
-    DialogClose,
 } from "@/components/ui/dialog"
-import { SelectSeller } from "@/components/SelectSeller";
-import { SellerInterface } from "@/const/Seller";
 import { useState } from "react";
+import { notifyError } from "@/const/Notification";
+import { InfoModal } from "@/components/InfoModal";
 
-const notifyNotProduct = () => toast.error('Não há produtos na sacola!', {
-    position: "top-left",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-    theme: "colored",
-});
+export interface InterfaceClientData {
+    'name': string;
+    'number': string;
+}
 
 export default function Bag() {
 
-    const [seller, setSeller] = useState<SellerInterface[]>([]);
-
-    const [clientName, setClientName] = useState<string>('');
+    const [controlModal, setControlModal] = useState<boolean>(false);
 
     const { bag, removelAllBag, removeFromBag, addToBag } = useBag();
 
     const handleClickBuy = () => {
-        if (bag.length > 0) {
 
-            message(bag, seller, clientName);
+        if (bag.length > 0) {
+            setControlModal(true);
             return;
         }
 
-        notifyNotProduct();
+        notifyError('Não há produtos na sacola!');
     }
 
     return (
 
-        <Dialog>
+        <Dialog open={controlModal} onOpenChange={setControlModal}>
 
             <main className="p-5 flex flex-col gap-5 relative">
 
-
-                <DialogContent className="max-w-[90%] lg:w-2/5 rounded-md bg-[#eee]">
-
-                    <div className="flex flex-col gap-3">
-
-                        <div className="flex flex-wrap justify-start items-center gap-1">
-                            <label htmlFor="nome do cliente" className="text-lg">Digite seu nome:</label>
-                            <input 
-                            type="text" 
-                            name="nome do cliente"
-                             id="nameClient"
-                              title="Digite seu nome" 
-                              className="p-1 focus:outline-[#f76382] shadow rounded" 
-                              onChange={(e) => setClientName(e.target.value)}
-                              />
-                        </div>
-
-                        <SelectSeller setSeller={setSeller} />
-                    </div>
-
-                    <DialogClose>
-                        <button
-                            className="bg-[#f76382] text-zinc-50 rounded-md font-semibold w-full py-3 active:scale-95 active:shadow-inner active:shadow-zinc-900"
-                            aria-label="Comprar"
-                            title="Enviar pedido"
-                            type="submit"
-                            onClick={() => handleClickBuy()}
-                        >
-                            Enviar
-                        </button>
-                    </DialogClose>
-                </DialogContent>
+                <InfoModal controlModal={setControlModal} />
 
                 <div className="flex justify-start items-center gap-5">
 
@@ -123,18 +80,16 @@ export default function Bag() {
                         Remover todos
                     </button>
 
-                    <DialogTrigger asChild>
+                    <button
+                        className="bg-[#f76382] text-zinc-50 rounded-md font-semibold w-full py-3 active:scale-95 active:shadow-inner active:shadow-zinc-900"
+                        type="button"
+                        aria-label="Comprar"
+                        title="Comprar"
+                        onClick={() => handleClickBuy()}
+                    >
+                        Comprar
+                    </button>
 
-                        <button
-                            className="bg-[#f76382] text-zinc-50 rounded-md font-semibold w-full py-3 active:scale-95 active:shadow-inner active:shadow-zinc-900"
-                            type="button"
-                            aria-label="Comprar"
-                            title="Comprar"
-                        >
-                            Comprar
-                        </button>
-
-                    </DialogTrigger>
 
                 </div>
 

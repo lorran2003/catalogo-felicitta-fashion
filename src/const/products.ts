@@ -49,7 +49,7 @@ export const products = [
         photo: vestBlue,
         name: 'Vestido longo verão',
         category: category.vestido,
-        size: ['Único'],
+        size: ['M-G'],
         price: 129.90
     },
     {

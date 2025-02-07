@@ -1,13 +1,16 @@
 import { ProductToBag } from "@/hooks/useBag";
-import { SellerInterface } from "./Seller";
+import { SellerInterface } from "./seller";
+import { InterfaceClientData } from "@/router/Bag";
 
-export function message(bag: ProductToBag[], seller: SellerInterface[], clientName: string) {
 
-    const phoneNumber = seller[0].number;
+export function message(bag: ProductToBag[], seller: SellerInterface, client: InterfaceClientData) {
+
+    const phoneNumber = seller.number;
 
     const messageContent =
-        `💕Cliente: *${clientName}\n\n*` +
-        `🥰Vendedor: *${seller[0].name}*\n\n` +
+        `💕Cliente: *${client.name}\n\n*` +
+        `📞Telefone do cliente: ${client.number}\n\n` +
+        `🥰Vendedor: *${seller.name}*\n\n` +
         'Lista de produtos :\n\n'
         + bag.map((item) =>
             `📦 *${item.name}*\n` +

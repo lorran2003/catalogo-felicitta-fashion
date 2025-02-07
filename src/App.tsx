@@ -1,6 +1,6 @@
 import Filter from "./components/Filter";
 import { Header } from "./components/Header";
-import { category, products } from "./const/products";
+import { products } from "./const/products";
 import { lazy, Suspense, useState } from "react";
 import { useBag } from "./hooks/useBag";
 import Loading from "./components/Loading";
@@ -15,7 +15,7 @@ export interface Product {
   'category': string;
 }
 
-const productsNewPrice: Product[] = products.map((product) => ({ ...product, 'price': product.category === category.calcado ? (product.price + 20) : (product.price + 25) }));
+const productsNewPrice: Product[] = products.map((product) => ({ ...product, 'price': product.price + 20}));
 
 const CardProduct = lazy(() => import('./components/CardProduct'));
 

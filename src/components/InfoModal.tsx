@@ -7,49 +7,99 @@ import React, { useState } from "react";
 import { notifyError } from "@/const/Notification";
 import { seller, SellerInterface } from "@/const/seller";
 import { message } from "@/const/message";
-import { useBag } from "@/hooks/useBag";
+import { ProductToBag } from "@/hooks/useBag";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+import { SelectOptions } from "./SelectOptions";
 
-export function InfoModal({ controlModal }: { controlModal: (open: boolean) => void }) {
+export interface PaymentInterface {
+    payment: string;
+    installments?: string;
+}
 
-    const bag = useBag().bag;
+interface PropsInfoModal {
+    controlModal: (open: boolean) => void;
+    bag: ProductToBag[];
+}
 
-    const [client, setClient] = useState<InterfaceClientData>({ name: '', number: '' });
+const payment = { money: 'Dinheiro', creditCard: 'Cartão de crédito', debitCard: 'Cartão de debito', pix: 'Pix' };
 
-    const [sellerSelected, setSellerSelected] = useState<SellerInterface>({id: 0, name: '', number: ''});
+export function InfoModal({ controlModal, bag }: PropsInfoModal) {
 
-    console.log(sellerSelected);
+    const [client, setClient] = useState<InterfaceClientData>({ name: '', phone: '' });
+
+    const [selectedSeller, setSelectedSeller] = useState<SellerInterface>({ id: '0', name: '', number: '' });
+
+    const [selectedPayment, setSelectedPayment] = useState<PaymentInterface>({ payment: '' });
+
+    const totalPrice = bag.reduce((prev, cur) => prev + cur.price * cur.amount, 0);
 
     const submitData = () => {
 
-        const { name, number } = client;
+        const { name, phone } = client;
 
-        if (name.length < 2 || number.length < 9) {
+        if (name.length < 2 || phone.length < 9) {
             notifyError('Preencha seu nome e telefone!');
             return;
         }
 
-        if (sellerSelected.name.length < 2) {
+        if (selectedSeller.name.length < 2) {
             notifyError('Selecione um vendedor!');
             return;
         }
 
-        message(bag, sellerSelected, client);
+        if (!selectedPayment.payment) {
+            notifyError('Selecione uma forma de pagamento!');
+            return;
+        }
 
+        if (!selectedPayment?.installments) {
+            notifyError('Selecione a quantidade de parcelas!');
+            return
+        }
+
+        message(bag, selectedSeller, client, selectedPayment);
+
+        setClient({ name: '', phone: '' });
+        setSelectedPayment({ payment: '' });
+        setSelectedSeller({ id: '0', name: '', number: '' });
         controlModal(false);
 
     }
 
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setClient({ ...client, [e.target.name]: e.target.value });
     }
+
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let input = e.target.value.replace(/\D/g, '');
+
+        
+        if (input.length > 0) {
+            input = `(${input.substring(0, 2)}) ${input.substring(2)}`;
+        }
+        
+        setClient({...client, [e.target.name]: input});
+    };
+
+    const handleSellerChange = (str: string) => {
+
+        const findSeller = seller.find((seller) => seller.name === str);
+
+        if (findSeller) {
+            setSelectedSeller(findSeller);
+            return;
+        }
+
+        notifyError('Ops não encontramos esse vendedor, entre em contato!');
+    }
+
+    const handlePayment = (payment: string) => {
+        setSelectedPayment({ 'payment': payment });
+    };
+
+    const handleCreditCard = (installments: string) => {
+        setSelectedPayment({ 'payment': payment.creditCard, 'installments': installments });
+    };
 
     return (
         <DialogContent className="max-w-[90%] lg:w-2/5 rounded-md bg-[#eee]">
@@ -61,48 +111,75 @@ export function InfoModal({ controlModal }: { controlModal: (open: boolean) => v
                     <div className="flex flex-wrap justify-start items-center gap-1">
                         <label htmlFor="nome do cliente" className="text-lg">Digite seu nome:</label>
                         <input
+                            value={client.name}
                             type="text"
                             name="name"
                             id="nameClient"
                             title="Digite seu nome"
                             className="p-1 focus:outline-[#f76382] shadow rounded"
                             minLength={2}
-                            onChange={handleOnChange}
+                            onChange={handleNameChange}
                         />
                     </div>
 
                     <div className="flex flex-wrap justify-start items-center gap-1">
                         <label htmlFor="número do cliente" className="text-lg">Digite seu número:</label>
                         <input
+                            value={client.phone}
                             type="text"
-                            name="number"
+                            name="phone"
                             id="numberClient"
                             title="Digite seu número"
                             className="p-1 focus:outline-[#f76382] shadow rounded"
-                            maxLength={11}
-                            onChange={handleOnChange}
+                            maxLength={14}
+                            placeholder="Ex: (00) 938171945"
+                            onChange={handlePhoneChange}
                         />
                     </div>
 
-                    <Select>
-                        <div className="flex flex-wrap justify-start items-center gap-1">
-                            <h1 className="text-lg">Selecione o seu vendedor:</h1>
-                            <SelectTrigger className="w-fit flex flex-wrap gap-1">
-                                <SelectValue placeholder="Selecione uma opção" />
-                            </SelectTrigger>
-                        </div>
+                    <SelectOptions
+                        item={seller.map((item) => item.name)}
+                        onValueChange={handleSellerChange}
+                        label="Selecione o seu vendedor:"
+                    />
 
-                        <SelectContent>
-                            {seller.map((item) => <SelectItem
-                                className="text-lg"
-                                key={item.id}
-                                value={item.name}
-                                onClick={() => setSellerSelected(item)}
-                            >
-                                {item.name}
-                            </SelectItem>)}
-                        </SelectContent>
-                    </Select>
+                    <SelectOptions
+                        item={Object.values(payment)}
+                        onValueChange={handlePayment}
+                        label="Forma de pagamento:"
+                    />
+
+                    {
+                        selectedPayment.payment === payment.creditCard && (
+                            <SelectOptions
+                                item={['1', '2', '3']}
+                                onValueChange={handleCreditCard}
+                                label="Númer de parcelas:"
+                            />
+                        )
+                    }
+
+                    <div className="flex flex-col gap-1 opacity-70 italic font-semibold text-lg">
+
+                        <h1>Resumo:</h1>
+
+                        {
+                            selectedPayment.installments && selectedPayment.payment === payment.creditCard ?
+                                (
+                                    <span>
+                                        {
+                                            `${selectedPayment.installments}x de R$ ${(totalPrice / Number(selectedPayment.installments)).toFixed(2)}`
+                                        }
+                                    </span>
+                                ) :
+                                (
+                                    <span>
+                                        R$ {totalPrice}
+                                    </span>
+                                )
+                        }
+                    </div>
+
                 </div>
 
             </DialogTitle>

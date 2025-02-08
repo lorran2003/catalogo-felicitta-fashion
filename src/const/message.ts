@@ -1,24 +1,29 @@
 import { ProductToBag } from "@/hooks/useBag";
 import { SellerInterface } from "./seller";
 import { InterfaceClientData } from "@/router/Bag";
+import { PaymentInterface } from "@/components/InfoModal";
 
 
-export function message(bag: ProductToBag[], seller: SellerInterface, client: InterfaceClientData) {
+export function message(bag: ProductToBag[], seller: SellerInterface, client: InterfaceClientData, payment: PaymentInterface) {
 
     const phoneNumber = seller.number;
 
+    const totalPrice = bag.reduce((prev, cur) => prev + cur.price * cur.amount, 0);
+
     const messageContent =
         `💕Cliente: *${client.name}\n\n*` +
-        `📞Telefone do cliente: ${client.number}\n\n` +
+        `📞Telefone do cliente: ${client.phone}\n\n` +
         `🥰Vendedor: *${seller.name}*\n\n` +
         'Lista de produtos :\n\n'
         + bag.map((item) =>
-            `📦 *${item.name}*\n` +
-            `📏 Tamanho: ${item.size}\n` +
-            `🔢 Quantidade: ${item.amount}\n` +
-            `💵 R$ ${item.price.toFixed(2)}\n`
-        ).join('\n\n') +
-        `\n\n💳 *Total: R$ ${bag.reduce((prev, cur) => prev + cur.price, 0).toFixed(2)}*`;
+            `📦 *${item.name}*` +
+            `📏 Tamanho: ${item.size}` +
+            `🔢 Quantidade: ${item.amount}` +
+            `💵 R$ ${item.price.toFixed(2)}`
+        ).join('\n') +
+        `\n💳 *Total: R$ ${totalPrice.toFixed(2)}*\n\n` +
+        `Forma de pagamento: *${payment.payment}*\n\n` +
+        (payment?.installments ? `Parcelas: *${payment.installments}x de R$ ${(totalPrice / Number(payment.installments)).toFixed(2)}*\n\n` : '');
 
     const encodedMessage = encodeURIComponent(messageContent);
 

@@ -12,8 +12,8 @@ import { notifyError } from "@/const/Notification";
 import { InfoModal } from "@/components/InfoModal";
 
 export interface InterfaceClientData {
-    'name': string;
-    'number': string;
+    name: string;
+    phone: string;
 }
 
 export default function Bag() {
@@ -38,7 +38,7 @@ export default function Bag() {
 
             <main className="p-5 flex flex-col gap-5 relative">
 
-                <InfoModal controlModal={setControlModal} />
+                <InfoModal controlModal={setControlModal} bag={bag} />
 
                 <div className="flex justify-start items-center gap-5">
 

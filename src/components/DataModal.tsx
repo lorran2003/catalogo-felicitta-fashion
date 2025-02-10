@@ -23,7 +23,7 @@ interface PropsInfoModal {
 
 const payment = { money: 'Dinheiro', creditCard: 'Cartão de crédito', debitCard: 'Cartão de debito', pix: 'Pix' };
 
-export function InfoModal({ controlModal, bag }: PropsInfoModal) {
+export function DataModal({ controlModal, bag }: PropsInfoModal) {
 
     const [client, setClient] = useState<InterfaceClientData>({ name: '', phone: '' });
 

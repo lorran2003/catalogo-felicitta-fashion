@@ -2,7 +2,7 @@ import {
     Dialog,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Modal } from "./Modal";
+import { Modal } from "./ProductModal/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImages, faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ProductToBag } from "@/hooks/useBag";

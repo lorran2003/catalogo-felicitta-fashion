@@ -1,7 +1,7 @@
 import { ProductToBag } from "@/hooks/useBag";
 import { SellerInterface } from "./seller";
 import { InterfaceClientData } from "@/router/Bag";
-import { PaymentInterface } from "@/components/InfoModal";
+import { PaymentInterface } from "@/components/DataModal";
 
 
 export function message(bag: ProductToBag[], seller: SellerInterface, client: InterfaceClientData, payment: PaymentInterface) {

@@ -3,23 +3,27 @@ import {
   Dialog,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Modal } from "./Modal";
+import { Modal } from "./ProductModal/Modal";
 import { useState } from "react";
+import { useBag } from "@/hooks/useBag";
 
 interface PropsCardProducts {
-  'product': InterfaceProduct;
-  'handleClick': (product: InterfaceProduct) => void;
-  'labelBtn': string;
+  product: InterfaceProduct;
+  buttonSubmitToBag: boolean;
 }
 
-export default function CardProduct({ product, handleClick, labelBtn }: PropsCardProducts) {
+export default function CardProduct({ product, buttonSubmitToBag }: PropsCardProducts) {
 
   const [controlModal, setControlModal] = useState<boolean>(false);
+
+  const { addToBag } = useBag();
 
   return (
     <Dialog open={controlModal} onOpenChange={setControlModal}>
 
-      <Modal product={product} button={{ handleClick, labelBtn, setControlModal }} />
+      <Modal
+        product={product}
+        button={buttonSubmitToBag ? { handleClick: addToBag, setControlModal: setControlModal } : undefined} />
 
       <div className="rounded-md w-[45%] lg:w-1/5">
 

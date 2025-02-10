@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { useState } from "react";
 import { notifyError } from "@/const/Notification";
-import { InfoModal } from "@/components/InfoModal";
+import { DataModal } from "@/components/DataModal";
 
 export interface InterfaceClientData {
     name: string;
@@ -38,7 +38,7 @@ export default function Bag() {
 
             <main className="p-5 flex flex-col gap-5 relative">
 
-                <InfoModal controlModal={setControlModal} bag={bag} />
+                <DataModal controlModal={setControlModal} bag={bag} />
 
                 <div className="flex justify-start items-center gap-5">
 

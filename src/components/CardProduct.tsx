@@ -1,4 +1,4 @@
-import { Product } from "../App";
+import { InterfaceProduct } from "../App";
 import {
   Dialog,
   DialogTrigger,
@@ -7,8 +7,8 @@ import { Modal } from "./Modal";
 import { useState } from "react";
 
 interface PropsCardProducts {
-  'product': Product;
-  'handleClick': (product: Product) => void;
+  'product': InterfaceProduct;
+  'handleClick': (product: InterfaceProduct) => void;
   'labelBtn': string;
 }
 

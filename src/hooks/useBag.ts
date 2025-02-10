@@ -1,4 +1,4 @@
-import { Product } from "@/App";
+import { InterfaceProduct } from "@/App";
 import { useEffect, useState } from "react";
 
 export interface ProductToBag {
@@ -22,7 +22,7 @@ export function useBag() {
         localStorage.setItem('bag', JSON.stringify(bag));
     }, [bag])
 
-    const addToBag = (product: Product | ProductToBag) => {
+    const addToBag = (product: InterfaceProduct | ProductToBag) => {
 
         const sizeProduct = Array.isArray(product.size) ? product.size[0] : product.size;
 

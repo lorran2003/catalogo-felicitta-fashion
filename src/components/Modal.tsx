@@ -1,4 +1,4 @@
-import { Product } from "@/App";
+import { InterfaceProduct } from "@/App";
 import {
     DialogContent,
     DialogDescription,
@@ -9,9 +9,9 @@ import { useState } from "react";
 import { notifyError, notifySuccess } from "@/const/Notification";
 
 interface PropsModal {
-    'product': Product;
+    'product': InterfaceProduct;
     'button'?: {
-        'handleClick': (product: Product) => void;
+        'handleClick': (product: InterfaceProduct) => void;
         'labelBtn': string;
         'setControlModal': (open: boolean) => void;
     }

@@ -8,14 +8,16 @@ import {
 
 interface SelectInterface{
     onValueChange: (value: string) => void;
+    lastValue: string | undefined;
     label: string;
     item: Array<string>;
 }
 
-export function SelectOptions({label, onValueChange, item}: SelectInterface) {
+export function SelectOptions({label, onValueChange, item, lastValue}: SelectInterface) {
+
     return (
 
-        <Select onValueChange={onValueChange}>
+        <Select onValueChange={onValueChange} defaultValue={lastValue}>
             <div className="flex flex-wrap justify-start items-center gap-1">
                 <h1 className="text-lg">{label}</h1>
                 <SelectTrigger className="w-fit flex flex-wrap gap-1 bg-zinc-50 focus:ring-[#f76382]">

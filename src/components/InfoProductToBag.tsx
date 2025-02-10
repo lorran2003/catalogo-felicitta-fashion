@@ -6,11 +6,11 @@ import { Modal } from "./Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImages, faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ProductToBag } from "@/hooks/useBag";
-import { Product } from "@/App";
+import { InterfaceProduct } from "@/App";
 
 interface PropsInfoProductToBag {
     'productToBag': ProductToBag;
-    'addToBag': (product: ProductToBag | Product) => void;
+    'addToBag': (product: ProductToBag | InterfaceProduct) => void;
     'removeFromBag': (idProduct: string | number, amount?: boolean) => void
 }
 

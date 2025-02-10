@@ -140,12 +140,14 @@ export function InfoModal({ controlModal, bag }: PropsInfoModal) {
                     <SelectOptions
                         item={seller.map((item) => item.name)}
                         onValueChange={handleSellerChange}
+                        lastValue={selectedSeller.name}
                         label="Selecione o seu vendedor:"
                     />
 
                     <SelectOptions
                         item={Object.values(payment)}
                         onValueChange={handlePayment}
+                        lastValue={selectedPayment.payment}
                         label="Forma de pagamento:"
                     />
 
@@ -154,7 +156,8 @@ export function InfoModal({ controlModal, bag }: PropsInfoModal) {
                             <SelectOptions
                                 item={['1', '2', '3']}
                                 onValueChange={handleCreditCard}
-                                label="Númer de parcelas:"
+                                lastValue={selectedPayment?.installments}
+                                label="Número de parcelas:"
                             />
                         )
                     }

@@ -50,6 +50,7 @@ export const products = [
         name: 'Vestido longo verão',
         category: category.vestido,
         size: ['M-G'],
+        amount:5,
         price: 129.90
     },
     {
@@ -58,6 +59,7 @@ export const products = [
         name: 'Vestido Primavera longo',
         category: category.vestido,
         size: ['Único'],
+        amount:2,
         price: 150
     },
     {
@@ -66,6 +68,7 @@ export const products = [
         name: 'Vestido White',
         category: category.vestido,
         size: ['Único'],
+        amount:2,
         price: 96
     },
     {
@@ -74,6 +77,7 @@ export const products = [
         name: 'Vestido Festa Dourado',
         category: category.vestido,
         size: ['Único'],
+        amount:2,
         price: 80
     },
     {
@@ -82,6 +86,7 @@ export const products = [
         name: 'Vestido Chifon',
         category: category.vestido,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -90,6 +95,7 @@ export const products = [
         name: 'Macaquinho Branco',
         category: category.macaquinho,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -98,6 +104,7 @@ export const products = [
         name: 'Macacão Prince',
         category: category.macaquinho,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -106,6 +113,7 @@ export const products = [
         name: 'Conjunto Verde',
         category: category.conjunto,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -114,6 +122,7 @@ export const products = [
         name: 'Vestido Flower Blue',
         category: category.vestido,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -122,6 +131,7 @@ export const products = [
         name: 'Vestido Midi Verão',
         category: category.vestido,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -130,6 +140,7 @@ export const products = [
         name: 'Vestido Estampado',
         category: category.vestido,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -138,6 +149,7 @@ export const products = [
         name: 'Vestido Branco Estampado',
         category: category.vestido,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -146,6 +158,7 @@ export const products = [
         name: 'Vestido Preto Estampado',
         category: category.vestido,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -154,6 +167,7 @@ export const products = [
         name: 'Mule Beira Rio',
         category: category.calcado,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -162,6 +176,7 @@ export const products = [
         name: 'Mule Beira Rio',
         category: category.calcado,
         size: ['35','37','38'],
+        amount:2,
         price: 84.90
     },
     {
@@ -170,6 +185,7 @@ export const products = [
         name: 'Rasteirinha',
         category: category.calcado,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -178,6 +194,7 @@ export const products = [
         name: 'Rasteirinha',
         category: category.calcado,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -186,6 +203,7 @@ export const products = [
         name: 'Rasteirinha',
         category: category.calcado,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -194,6 +212,7 @@ export const products = [
         name: 'Sapatilha Jeans',
         category: category.calcado,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -202,6 +221,7 @@ export const products = [
         name: 'Sapatilha',
         category: category.calcado,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -210,6 +230,7 @@ export const products = [
         name: 'Salto VILAROSA',
         category: category.calcado,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -218,6 +239,7 @@ export const products = [
         name: 'Sandália Beira Rio',
         category: category.calcado,
         size: ['Único'],
+        amount:2,
         price: 50
     },
     {
@@ -226,6 +248,7 @@ export const products = [
         name: 'Sandália Beira Rio',
         category: category.calcado,
         size: ['Único'],
+        amount:2,
         price: 50
     },
 ]

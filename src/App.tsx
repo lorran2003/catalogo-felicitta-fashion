@@ -6,16 +6,17 @@ import { useBag } from "./hooks/useBag";
 import Loading from "./components/Loading";
 import { Bounce, ToastContainer } from 'react-toastify';
 
-export interface Product {
+export interface InterfaceProduct {
   'id': string;
   'name': string;
   'photo': string;
   'price': number;
   'size': (number | string)[];
   'category': string;
+  'amount': number;
 }
 
-const productsNewPrice: Product[] = products.map((product) => ({ ...product, 'price': product.price + 20}));
+const productsNewPrice: InterfaceProduct[] = products.map((product) => ({ ...product, 'price': product.price + 20}));
 
 const CardProduct = lazy(() => import('./components/CardProduct'));
 

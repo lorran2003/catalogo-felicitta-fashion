@@ -1,25 +1,18 @@
 import Filter from "./components/Filter";
 import { Header } from "./components/Header";
-import { products } from "./const/products";
+import { InterfaceProduct, products } from "./const/products";
 import { lazy, Suspense, useState } from "react";
 import Loading from "./components/Loading";
 import { Bounce, ToastContainer } from 'react-toastify';
-
-export interface InterfaceProduct {
-  id: string;
-  name: string;
-  photo: string;
-  price: number;
-  size: (number | string)[];
-  category: string;
-  amount: number;
-}
+import { useBag } from "./hooks/useBag";
 
 const productsNewPrice: InterfaceProduct[] = products.map((product) => ({ ...product, 'price': product.price + 20 }));
 
 const CardProduct = lazy(() => import('./components/CardProduct'));
 
 export default function App() {
+
+  const { bag, addToBag } = useBag();
 
   const [activeButtonFilter, setActiveButtonFilter] = useState<string>('Todos');
 
@@ -28,7 +21,7 @@ export default function App() {
   return (
     <div className="relative">
 
-      <Header />
+      <Header numberProducts={bag.reduce((prev, cur) => prev + cur.amount, 0)} />
 
       <main className="py-20">
 
@@ -41,6 +34,7 @@ export default function App() {
               key={product.id}
               product={product}
               buttonSubmitToBag={true}
+              addTobag={addToBag}
             />
             )}
           </section>

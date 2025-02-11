@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { notifyError } from "@/const/Notification";
 import { seller, SellerInterface } from "@/const/seller";
 import { message } from "@/const/message";
-import { ProductToBag } from "@/hooks/useBag";
+import { InterfaceProductToBag } from "@/hooks/useBag";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { SelectOptions } from "./SelectOptions";
 
@@ -18,7 +18,7 @@ export interface PaymentInterface {
 
 interface PropsInfoModal {
     controlModal: (open: boolean) => void;
-    bag: ProductToBag[];
+    bag: InterfaceProductToBag[];
 }
 
 const payment = { money: 'Dinheiro', creditCard: 'Cartão de crédito', debitCard: 'Cartão de debito', pix: 'Pix' };

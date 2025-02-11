@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useBag } from "../hooks/useBag"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { InfoProductToBag } from "@/components/InfoProductToBag";
+import { InfoProductToBag } from "@/components/Bag/InfoProductToBag";
 import { Link } from "react-router";
 import { Bounce, ToastContainer } from "react-toastify";
 import {
@@ -62,7 +62,7 @@ export default function Bag() {
 
                     {bag.map((item, index) => <InfoProductToBag
                         key={index}
-                        productToBag={item}
+                        productBag={item}
                         addToBag={addToBag}
                         removeFromBag={removeFromBag}
                     />

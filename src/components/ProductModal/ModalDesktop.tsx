@@ -1,4 +1,4 @@
-import { InterfaceProduct } from "@/App";
+import { InterfaceProduct } from "@/const/products";
 import {
     DialogContent,
     DialogDescription,

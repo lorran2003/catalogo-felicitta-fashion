@@ -1,11 +1,8 @@
-import { useBag } from "@/hooks/useBag";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router";
 
-export function Header() {
-
-    const { bag } = useBag();
+export function Header({numberProducts}: {numberProducts: number}) {
 
     return (
         <header className="w-full h-20 shadow-sm fixed top-0 z-10 ">
@@ -28,7 +25,7 @@ export function Header() {
                         <span
                             className="absolute bottom-0 right-0 bg-[#f76382] text-zinc-50 rounded-full w-6 h-6 flex justify-center items-center"
                         >
-                            {bag.reduce((prev, cur) => prev + cur.amount, 0)}
+                            {numberProducts}
                         </span>
                     </button>
                 </Link>

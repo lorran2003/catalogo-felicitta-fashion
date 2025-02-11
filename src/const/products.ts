@@ -42,8 +42,17 @@ const generateId = () => {
     return `${id++}`;
 };
 
+export interface InterfaceProduct {
+    id: string;
+    name: string;
+    photo: string;
+    price: number;
+    size: (number | string)[];
+    category: string;
+    amount: number;
+  }
 
-export const products = [
+export const products : InterfaceProduct[] = [
     {
         id: generateId(),
         photo: vestBlue,

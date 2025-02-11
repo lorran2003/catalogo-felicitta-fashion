@@ -1,19 +1,19 @@
-import { InterfaceProduct } from "@/App";
+import { notifyError, notifySuccess } from "@/const/Notification";
 import { useEffect, useState } from "react";
-
-export interface ProductToBag {
-    'id': string;
-    'name': string;
-    'photo': string;
-    'price': number;
-    'size': number | string;
-    'category': string;
-    'amount': number;
+export interface InterfaceProductToBag {
+    id: string;
+    name: string;
+    photo: string;
+    price: number;
+    size: number | string;
+    category: string;
+    amount: number;
+    maxAmount: number;
 }
 
 export function useBag() {
 
-    const [bag, setBag] = useState<ProductToBag[]>(() => {
+    const [bag, setBag] = useState<InterfaceProductToBag[]>(() => {
         const savedBag = localStorage.getItem('bag');
         return savedBag ? JSON.parse(savedBag) : [];
     });
@@ -22,31 +22,43 @@ export function useBag() {
         localStorage.setItem('bag', JSON.stringify(bag));
     }, [bag])
 
-    const addToBag = (product: InterfaceProduct | ProductToBag) => {
+    const addToBag = (product: InterfaceProductToBag) => {
 
-        const sizeProduct = Array.isArray(product.size) ? product.size[0] : product.size;
+        try {
+            const existingItem = bag.find((item) => item.id === product.id && item.size === product.size);
 
-        const existingItem = bag.find(item => item.id === product.id && item.size === sizeProduct);
+            if (existingItem) {
 
-        if (existingItem) {
-            const newBag = bag.map(item =>
-                item.id === product.id
-                    ? { ...item, amount: item.amount + 1 }
-                    : item
-            );
-            setBag(newBag);
-            return;
+                if (existingItem.maxAmount === existingItem.amount) {
+
+                    return notifyError('Quantidade maxima atingida!');
+                }
+
+                const newBag = bag.map((item) =>
+                    item.id === product.id
+                        ? { ...item, amount: item.amount + 1 }
+                        : item
+                );
+                setBag(newBag);
+
+                return notifySuccess('Produto adicionado a sacola!');
+            }
+
+            const newProduct: InterfaceProductToBag = {
+                ...product,
+                size: product.size,
+                amount: product.amount
+            };
+
+            setBag([...bag, newProduct]);
+
+            return notifySuccess('Produto adicionado a sacola!');
         }
-
-        const newProduct: ProductToBag = {
-            ...product,
-            'size': sizeProduct,
-            'amount': 1
+        catch (error) {
+            console.error('Erro ao adicionar o produto à sacola:', error);
+            notifyError('Ops... tivemos um probleminha, entre em contato')
         };
-
-        setBag([...bag, newProduct]);
-
-    };
+    }
 
     const removeFromBag = (idProduct: string | number, amount?: boolean) => {
 

@@ -1,29 +1,29 @@
-import { InterfaceProduct } from "../App";
+import { InterfaceProduct } from "@/const/products";
 import {
   Dialog,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Modal } from "./ProductModal/Modal";
 import { useState } from "react";
-import { useBag } from "@/hooks/useBag";
+import { InterfaceProductToBag } from "@/hooks/useBag";
 
 interface PropsCardProducts {
   product: InterfaceProduct;
   buttonSubmitToBag: boolean;
+  addTobag: (product: InterfaceProductToBag) => void
 }
 
-export default function CardProduct({ product, buttonSubmitToBag }: PropsCardProducts) {
+export default function CardProduct({ product, buttonSubmitToBag, addTobag }: PropsCardProducts) {
 
   const [controlModal, setControlModal] = useState<boolean>(false);
-
-  const { addToBag } = useBag();
 
   return (
     <Dialog open={controlModal} onOpenChange={setControlModal}>
 
       <Modal
         product={product}
-        button={buttonSubmitToBag ? { handleClick: addToBag, setControlModal: setControlModal } : undefined} />
+        buttonSubmitToBag={buttonSubmitToBag ? { handleClick: addTobag, setControlModal: setControlModal } : undefined}
+      />
 
       <div className="rounded-md w-[45%] lg:w-1/5">
 

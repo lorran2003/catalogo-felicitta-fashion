@@ -1,14 +1,17 @@
 import { InterfaceProductToBag } from "@/hooks/useBag";
-import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AmountProduct } from "../AmountProduct";
+import { products } from "@/const/products";
 
 interface InterfacePreviewMobile {
     productBag: InterfaceProductToBag
     addToBag: (product: InterfaceProductToBag) => void
-    removeFromBag: (idProduct: string | number, amount?: boolean) => void
+    removeFromBag: (product: InterfaceProductToBag, all?: boolean) => void
 }
 
 export function PreviewMobile({ addToBag, productBag, removeFromBag }: InterfacePreviewMobile) {
+
     return (
         <div className="bg-zinc-900 rounded-md w-full p-2">
 
@@ -24,30 +27,12 @@ export function PreviewMobile({ addToBag, productBag, removeFromBag }: Interface
 
                     <span>Tamanho: {productBag.size}</span>
 
-                    <div className="flex justify-center items-center gap-3 w-full">
-
-                        <button
-                            type="button"
-                            title="Remover"
-                            className={"rounded-sm bg-[#f76382] p-1 active:scale-95 " + (productBag.amount === 1 && ' opacity-50')}
-                            onClick={() => removeFromBag(productBag.id, true)}
-                            disabled={productBag.amount === 1}
-                        >
-                            <FontAwesomeIcon icon={faMinus} size="lg" />
-                        </button>
-
-                        <span>{productBag.amount}</span>
-
-                        <button
-                            type="button"
-                            title="Adicionar"
-                            className="rounded-sm bg-[#f76382] p-1 active:scale-95"
-                            onClick={() => addToBag(productBag)}
-                        >
-                            <FontAwesomeIcon icon={faPlus} size="lg" />
-                        </button>
-
-                    </div>
+                    <AmountProduct
+                        addProduct={() => addToBag(productBag)}
+                        removeProduct={() => removeFromBag(productBag)}
+                        maxAmount={products.find((item) => item.id === productBag.id)?.amount ?? 1}
+                        previousAmount={productBag.amount}
+                    />
 
                 </div>
 
@@ -57,7 +42,7 @@ export function PreviewMobile({ addToBag, productBag, removeFromBag }: Interface
                 type="button"
                 title="Excluir"
                 className="rounded-md flex justify-center items-center bg-[#f76382] p-3 active:scale-95 w-full active:shadow-inner"
-                onClick={() => setTimeout(() => removeFromBag(productBag.id), 150)}
+                onClick={() => removeFromBag(productBag, true)}
             >
                 <FontAwesomeIcon icon={faTrash} size="lg" color="#fff" />
             </button>

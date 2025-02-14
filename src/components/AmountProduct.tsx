@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface PropsAmountProduct {
     addProduct: () => void;
     removeProduct: () => void;
-    amountProduct: number;
+    maxAmount: number;
     previousAmount: number;
 }
 
-export function AmountProduct({ addProduct, amountProduct, previousAmount, removeProduct }: PropsAmountProduct) {
+export function AmountProduct({ addProduct, maxAmount, previousAmount, removeProduct }: PropsAmountProduct) {
     return (
         <div className="flex justify-center items-center gap-3 w-full">
 
@@ -16,7 +16,7 @@ export function AmountProduct({ addProduct, amountProduct, previousAmount, remov
                 title="Remover"
                 className={"rounded-sm bg-[#f76382] w-fit h-fit px-2 py-0.5 active:scale-95 " + (previousAmount === 1 && ' opacity-50')}
                 disabled={previousAmount <= 1}
-                onClick={() => removeProduct()}
+                onClick={removeProduct}
             >
                 <FontAwesomeIcon icon={faMinus} color="#fff" />
             </button>
@@ -26,9 +26,9 @@ export function AmountProduct({ addProduct, amountProduct, previousAmount, remov
             <button
                 type="button"
                 title="Adicionar"
-                className={"rounded-sm bg-[#f76382] w-fit h-fit px-2 py-0.5 active:scale-95 " + (previousAmount === amountProduct && ' opacity-50')}
-                disabled={previousAmount >= amountProduct}
-                onClick={() => addProduct()}
+                className={"rounded-sm bg-[#f76382] w-fit h-fit px-2 py-0.5 active:scale-95 " + (previousAmount === maxAmount && ' opacity-50')}
+                disabled={previousAmount >= maxAmount}
+                onClick={addProduct}
             >
                 <FontAwesomeIcon icon={faPlus} color="#fff" />
             </button>

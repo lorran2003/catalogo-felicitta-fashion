@@ -9,11 +9,10 @@ import { InterfaceProductToBag } from "@/hooks/useBag";
 
 interface PropsCardProducts {
   product: InterfaceProduct;
-  buttonSubmitToBag: boolean;
   addTobag: (product: InterfaceProductToBag) => void
 }
 
-export default function CardProduct({ product, buttonSubmitToBag, addTobag }: PropsCardProducts) {
+export default function CardProduct({ product, addTobag }: PropsCardProducts) {
 
   const [controlModal, setControlModal] = useState<boolean>(false);
 
@@ -22,7 +21,7 @@ export default function CardProduct({ product, buttonSubmitToBag, addTobag }: Pr
 
       <Modal
         product={product}
-        buttonSubmitToBag={buttonSubmitToBag ? { handleClick: addTobag, setControlModal: setControlModal } : undefined}
+        buttonSubmitToBag={{ handleClick: addTobag, setControlModal: setControlModal }}
       />
 
       <div className="rounded-md w-[45%] lg:w-1/5">

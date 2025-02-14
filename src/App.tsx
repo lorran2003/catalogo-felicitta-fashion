@@ -33,7 +33,6 @@ export default function App() {
             {filterProducts.map((product) => <CardProduct
               key={product.id}
               product={product}
-              buttonSubmitToBag={true}
               addTobag={addToBag}
             />
             )}

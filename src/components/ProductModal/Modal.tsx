@@ -3,7 +3,7 @@ import { useState } from "react";
 import { notifyError } from "@/const/Notification";
 import { ModalDesktop } from "./ModalDesktop";
 import { ModalMobile } from "./ModalMobile";
-import { InterfaceProductToBag } from "@/hooks/useBag";
+import { InterfaceProductToBag, useBag } from "@/hooks/useBag";
 
 interface PropsModal {
     product: InterfaceProduct;
@@ -13,11 +13,24 @@ interface PropsModal {
     }
 }
 
-export function Modal({ product, buttonSubmitToBag: button }: PropsModal) {
+export function Modal({ product, buttonSubmitToBag }: PropsModal) {
+
+    const bag = useBag().bag;
+
+    const indentfyProduct = () => {
+
+        const productBag = bag.find((item) => item.id === product.id && product.size.length === 1);
+
+        if (productBag) {
+            return productBag.amount
+        }
+        return 1;
+    }
 
     const [sizeSelect, setSizeSelect] = useState<string | number>(product.size.length === 1 ? product.size[0] : '');
 
-    const [amountSelected, setAmountSelected] = useState<number>(1);
+    const [amountSelected, setAmountSelected] = useState<number>(indentfyProduct());
+
 
     const submitProductToBag = () => {
         try {
@@ -35,9 +48,13 @@ export function Modal({ product, buttonSubmitToBag: button }: PropsModal) {
                     maxAmount: product.amount
                 };
 
-                button?.handleClick(newProduct);
+                buttonSubmitToBag?.handleClick(newProduct);
 
-                button?.setControlModal(false);
+                buttonSubmitToBag?.setControlModal(false);
+
+                setAmountSelected(1);
+               
+                setSizeSelect('');
 
                 return;
             }
@@ -59,7 +76,7 @@ export function Modal({ product, buttonSubmitToBag: button }: PropsModal) {
             setAmount={setAmountSelected}
             sizeSelect={sizeSelect}
             setSizeSelect={setSizeSelect}
-            buttonSubmitToBag={button && { handleClick: submitProductToBag }}
+            buttonSubmitToBag={buttonSubmitToBag && { handleClick: submitProductToBag }}
         /> :
         <ModalMobile
             product={product}
@@ -67,6 +84,6 @@ export function Modal({ product, buttonSubmitToBag: button }: PropsModal) {
             setAmount={setAmountSelected}
             sizeSelect={sizeSelect}
             setSizeSelect={setSizeSelect}
-            buttonSubmitToBag={button && { handleClick: submitProductToBag }}
+            buttonSubmitToBag={buttonSubmitToBag && { handleClick: submitProductToBag }}
         />;
 }

@@ -19,6 +19,13 @@ interface PropsModal {
 }
 
 export function ModalMobile({ product, buttonSubmitToBag, setSizeSelect, setAmount, amount, sizeSelect }: PropsModal) {
+    const addProduct = () => {
+        setAmount(amount + 1);
+    }
+
+    const removeProduct = () => {
+        setAmount(amount - 1);
+    }
     return (
         <DialogContent className="rounded-md max-w-[95%] sm:max-w-[41rem] max-h-[99%] overflow-auto sm:overflow-hidden bg-[#eee]">
 
@@ -63,10 +70,10 @@ export function ModalMobile({ product, buttonSubmitToBag, setSizeSelect, setAmou
                                 <h3>Quantidade:</h3>
 
                                 <AmountProduct
-                                    addProduct={() => setAmount(amount + 1)}
-                                    amountProduct={product.amount}
+                                    addProduct={addProduct}
+                                    maxAmount={product.amount}
                                     previousAmount={amount}
-                                    removeProduct={() => setAmount(amount - 1)}
+                                    removeProduct={removeProduct}
                                 />
                             </div>
 
@@ -81,7 +88,7 @@ export function ModalMobile({ product, buttonSubmitToBag, setSizeSelect, setAmou
                                 title="Adicionar a sacola"
                                 onClick={() => buttonSubmitToBag.handleClick()}
                             >
-                                Adicionar
+                                Confirmar
                             </button>
 
                         )}

@@ -25,54 +25,58 @@ export function useBag() {
     const addToBag = (product: InterfaceProductToBag) => {
 
         try {
-            const existingItem = bag.find((item) => item.id === product.id && item.size === product.size);
+            const existingItem = bag.find((item) => (item.id === product.id && item.size === product.size));
 
-            if (existingItem) {
+            if (!existingItem) {
+                setBag([...bag, product]);
 
-                if (existingItem.maxAmount === existingItem.amount) {
+                notifySuccess('Produto adicionado a sacola!');
+                return;
+            }
+            if (existingItem.maxAmount === existingItem.amount) {
 
-                    return notifyError('Quantidade maxima atingida!');
-                }
-
-                const newBag = bag.map((item) =>
-                    item.id === product.id
-                        ? { ...item, amount: item.amount + 1 }
-                        : item
-                );
-                setBag(newBag);
-
-                return notifySuccess('Produto adicionado a sacola!');
+                return notifyError('Quantidade maxima atingida!');
             }
 
-            const newProduct: InterfaceProductToBag = {
-                ...product,
-                size: product.size,
-                amount: product.amount
-            };
-
-            setBag([...bag, newProduct]);
-
-            return notifySuccess('Produto adicionado a sacola!');
-        }
-        catch (error) {
-            console.error('Erro ao adicionar o produto à sacola:', error);
-            notifyError('Ops... tivemos um probleminha, entre em contato')
-        };
-    }
-
-    const removeFromBag = (idProduct: string | number, amount?: boolean) => {
-
-        if (amount) {
-            const newBag = bag.map((item) => item.id === idProduct ? { ...item, 'amount': item.amount - 1 } : item);
+            const newBag = bag.map((item) =>
+                item === existingItem
+                    ? { ...item, amount: item.amount + 1 }
+                    : item
+            );
             setBag(newBag);
             return;
         }
 
-        const newBag = bag.filter((item) => item.id !== idProduct);
-        setBag(newBag);
+        catch (error) {
+            console.error('Erro ao adicionar o produto à sacola:', error);
+            notifyError('Ops... tivemos um probleminha, entre em contato');
+            return;
+        };
+    }
+
+    const removeFromBag = (product: InterfaceProductToBag, all?: boolean) => {
+
+        try {
+
+            const findProduct = bag.find((item) => item.id === product.id && item.size === product.size);
+
+            if (all && findProduct || findProduct?.amount === 1) {
+                const newBag = bag.filter((item) => item !== findProduct);
+                setBag(newBag);
+                return;
+            }
+
+            const newBag = bag.map((item) => (item === findProduct ? { ...findProduct, 'amount': item.amount - 1 } : item));
+            setBag(newBag);
+            return;
+        }
+        catch (error) {
+            console.error('Erro ao adicionar o produto à sacola:', error);
+            notifyError('Ops... tivemos um probleminha, entre em contato')
+        }
     };
 
     const removelAllBag = () => setBag([]);
 
-    return { 'bag': bag, 'addToBag': addToBag, 'removeFromBag': removeFromBag, 'removelAllBag': removelAllBag };
+    return { bag: bag, addToBag: addToBag, removeFromBag: removeFromBag, removelAllBag: removelAllBag };
 }

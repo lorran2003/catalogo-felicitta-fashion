@@ -75,7 +75,7 @@ export function DataModal({ controlModal, bag }: PropsInfoModal) {
 
         
         if (input.length > 0) {
-            input = `(${input.substring(0, 2)}) ${input.substring(2)}`;
+            input = `${input.substring(0, 2)} ${input.substring(2)}`;
         }
         
         setClient({...client, [e.target.name]: input});
@@ -132,7 +132,7 @@ export function DataModal({ controlModal, bag }: PropsInfoModal) {
                             title="Digite seu número"
                             className="p-1 focus:outline-[#f76382] shadow rounded"
                             maxLength={14}
-                            placeholder="Ex: (00) 938171945"
+                            placeholder="Ex:21 938171945"
                             onChange={handlePhoneChange}
                         />
                     </div>

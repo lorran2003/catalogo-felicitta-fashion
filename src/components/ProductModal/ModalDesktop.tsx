@@ -14,11 +14,21 @@ interface PropsModal {
     setAmount: (amount: number) => void;
     amount: number;
     buttonSubmitToBag?: {
-        handleClick: () => void
+        handleClick: () => void;
+        label?: string;
     };
 }
 
 export function ModalDesktop({ amount, product, setAmount, setSizeSelect, sizeSelect, buttonSubmitToBag }: PropsModal) {
+
+    const addProduct = () => {
+        setAmount(amount + 1);
+    }
+
+    const removeProduct = () => {
+        setAmount(amount - 1);
+    }
+
     return (
         <DialogContent className="max-w-[55rem] bg-[#eee]">
             <DialogHeader className="grid grid-cols-2 gap-5 w-full">
@@ -51,7 +61,9 @@ export function ModalDesktop({ amount, product, setAmount, setSizeSelect, sizeSe
                                         type="button"
                                         title="Selecionar tamanho"
                                         value={size}
-                                        className={"rounded-md duration-75 shadow-md py-1 px-2 " + (sizeSelect === size ? "bg-[#f76382] text-zinc-50 shadow" : "text-zinc-900 bg-zinc-50")}
+                                        className={
+                                            buttonSubmitToBag && ("rounded-md duration-75 shadow-md py-1 px-2 " + (sizeSelect === size ? "bg-[#f76382] text-zinc-50 shadow" : "text-zinc-900 bg-zinc-50"))
+                                        }
                                         onClick={() => setSizeSelect(size)}
                                     >
                                         {size}
@@ -63,12 +75,19 @@ export function ModalDesktop({ amount, product, setAmount, setSizeSelect, sizeSe
 
                                 <h3>Quantidade:</h3>
 
-                                <AmountProduct
-                                    addProduct={() => setAmount(amount + 1)}
-                                    amountProduct={product.amount}
-                                    previousAmount={amount}
-                                    removeProduct={() => setAmount(amount - 1)}
-                                />
+                                {buttonSubmitToBag ?
+                                    (
+                                        <AmountProduct
+                                            addProduct={addProduct}
+                                            maxAmount={product.amount}
+                                            previousAmount={amount}
+                                            removeProduct={removeProduct}
+                                        />
+                                    ) :
+                                    (
+                                        <span>{product.amount}</span>
+                                    )
+                                }
                             </div>
 
                         </div>
@@ -77,14 +96,13 @@ export function ModalDesktop({ amount, product, setAmount, setSizeSelect, sizeSe
 
                     {buttonSubmitToBag && (
 
-
                         <button
                             className="bg-[#f76382] text-zinc-50 rounded-md font-semibold w-full py-2 active:scale-95 active:shadow-inner active:shadow-zinc-900"
                             type="button"
                             title="Adicionar a sacola"
                             onClick={() => buttonSubmitToBag.handleClick()}
                         >
-                            Adicionar
+                            Confirmar
                         </button>
 
                     )}

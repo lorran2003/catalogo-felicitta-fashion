@@ -52,7 +52,7 @@ export function DataModal({ controlModal, bag }: PropsInfoModal) {
             return;
         }
 
-        if (!selectedPayment?.installments) {
+        if (!selectedPayment?.installments && selectedPayment.payment === payment.creditCard) {
             notifyError('Selecione a quantidade de parcelas!');
             return
         }
@@ -131,7 +131,8 @@ export function DataModal({ controlModal, bag }: PropsInfoModal) {
                             id="numberClient"
                             title="Digite seu número"
                             className="p-1 focus:outline-[#f76382] shadow rounded"
-                            maxLength={14}
+                            maxLength={12}
+                            minLength={12}
                             placeholder="Ex:21 938171945"
                             onChange={handlePhoneChange}
                         />
@@ -164,7 +165,7 @@ export function DataModal({ controlModal, bag }: PropsInfoModal) {
 
                     <div className="flex flex-col gap-1 opacity-70 italic font-semibold text-lg">
 
-                        <h1>Resumo:</h1>
+                        <h1>Pedido:</h1>
 
                         {
                             selectedPayment.installments && selectedPayment.payment === payment.creditCard ?
@@ -177,7 +178,7 @@ export function DataModal({ controlModal, bag }: PropsInfoModal) {
                                 ) :
                                 (
                                     <span>
-                                        R$ {totalPrice}
+                                        R$ {totalPrice.toFixed(2)}
                                     </span>
                                 )
                         }

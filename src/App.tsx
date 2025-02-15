@@ -1,12 +1,11 @@
 import Filter from "./components/Filter";
 import { Header } from "./components/Header";
-import { InterfaceProduct, products } from "./const/products";
+import { products } from "./const/products";
 import { lazy, Suspense, useState } from "react";
 import Loading from "./components/Loading";
 import { Bounce, ToastContainer } from 'react-toastify';
 import { useBag } from "./hooks/useBag";
 
-const productsNewPrice: InterfaceProduct[] = products.map((product) => ({ ...product, 'price': product.price + 20 }));
 
 const CardProduct = lazy(() => import('./components/CardProduct'));
 
@@ -16,7 +15,7 @@ export default function App() {
 
   const [activeButtonFilter, setActiveButtonFilter] = useState<string>('Todos');
 
-  const filterProducts = activeButtonFilter === 'Todos' ? productsNewPrice : productsNewPrice.filter((product) => product.category === activeButtonFilter);
+  const filterProducts = activeButtonFilter === 'Todos' ? products : products.filter((product) => product.category === activeButtonFilter);
 
   return (
     <div className="relative">

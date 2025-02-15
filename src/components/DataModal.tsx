@@ -73,12 +73,12 @@ export function DataModal({ controlModal, bag }: PropsInfoModal) {
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let input = e.target.value.replace(/\D/g, '');
 
-        
+
         if (input.length > 0) {
             input = `${input.substring(0, 2)} ${input.substring(2)}`;
         }
-        
-        setClient({...client, [e.target.name]: input});
+
+        setClient({ ...client, [e.target.name]: input });
     };
 
     const handleSellerChange = (str: string) => {
@@ -177,9 +177,29 @@ export function DataModal({ controlModal, bag }: PropsInfoModal) {
                                     </span>
                                 ) :
                                 (
-                                    <span>
-                                        R$ {totalPrice.toFixed(2)}
-                                    </span>
+                                    <div className="flex flex-col jutify-center items-start">
+                                        {selectedPayment.payment === payment.debitCard || selectedPayment.payment.length <= 0 || selectedPayment.payment === payment.creditCard ? (
+                                            <span>
+                                                R$ {totalPrice.toFixed(2)}
+                                            </span>
+                                        )
+                                            : (
+                                                <>
+                                                    <div className="flex gap-2 text-neutral-500">
+                                                        <span>
+                                                            <s>R$ {totalPrice.toFixed(2)}</s>
+                                                        </span>
+                                                        <span>
+                                                            10% OFF
+                                                        </span>
+                                                    </div>
+
+                                                    <span>
+                                                        R$ {bag.reduce((prev, cur) => prev + ((cur.price * cur.amount) * 0.9), 0).toFixed(2)}
+                                                    </span>
+                                                </>
+                                            )}
+                                    </div>
                                 )
                         }
                     </div>

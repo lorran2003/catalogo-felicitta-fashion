@@ -4,11 +4,14 @@ import { InterfaceClientData } from "@/router/Bag";
 import { PaymentInterface } from "@/components/DataModal";
 
 
+
 export function message(bag: InterfaceProductToBag[], seller: SellerInterface, client: InterfaceClientData, payment: PaymentInterface) {
 
     const phoneNumber = seller.number;
 
-    const totalPrice = bag.reduce((prev, cur) => prev + cur.price * cur.amount, 0);
+    const totalPrice = payment.payment === 'Pix' ?
+        bag.reduce((prev, cur) => prev + ((cur.price * cur.amount) * 0.9), 0) :
+        bag.reduce((prev, cur) => prev + cur.price * cur.amount, 0);
 
     const messageContent =
         `💕Cliente: *${client.name}*\n\n` +

@@ -21,7 +21,7 @@ interface PropsInfoModal {
     bag: InterfaceProductToBag[];
 }
 
-const payment = { money: 'Dinheiro', creditCard: 'Cartão de crédito', debitCard: 'Cartão de debito', pix: 'Pix' };
+const payments = { money: 'Dinheiro', creditCard: 'Cartão de crédito', debitCard: 'Cartão de debito', pix: 'Pix' };
 
 export function DataModal({ controlModal, bag }: PropsInfoModal) {
 
@@ -52,7 +52,7 @@ export function DataModal({ controlModal, bag }: PropsInfoModal) {
             return;
         }
 
-        if (!selectedPayment?.installments && selectedPayment.payment === payment.creditCard) {
+        if (!selectedPayment?.installments && selectedPayment.payment === payments.creditCard) {
             notifyError('Selecione a quantidade de parcelas!');
             return
         }
@@ -98,7 +98,7 @@ export function DataModal({ controlModal, bag }: PropsInfoModal) {
     };
 
     const handleCreditCard = (installments: string) => {
-        setSelectedPayment({ 'payment': payment.creditCard, 'installments': installments });
+        setSelectedPayment({ 'payment': payments.creditCard, 'installments': installments });
     };
 
     return (
@@ -146,14 +146,14 @@ export function DataModal({ controlModal, bag }: PropsInfoModal) {
                     />
 
                     <SelectOptions
-                        item={Object.values(payment)}
+                        item={Object.values(payments)}
                         onValueChange={handlePayment}
                         lastValue={selectedPayment.payment}
                         label="Forma de pagamento:"
                     />
 
                     {
-                        selectedPayment.payment === payment.creditCard && (
+                        selectedPayment.payment === payments.creditCard && (
                             <SelectOptions
                                 item={['1', '2', '3']}
                                 onValueChange={handleCreditCard}
@@ -168,7 +168,7 @@ export function DataModal({ controlModal, bag }: PropsInfoModal) {
                         <h1>Pedido:</h1>
 
                         {
-                            selectedPayment.installments && selectedPayment.payment === payment.creditCard ?
+                            selectedPayment.installments && selectedPayment.payment === payments.creditCard ?
                                 (
                                     <span>
                                         {
@@ -178,7 +178,7 @@ export function DataModal({ controlModal, bag }: PropsInfoModal) {
                                 ) :
                                 (
                                     <div className="flex flex-col jutify-center items-start">
-                                        {selectedPayment.payment === payment.debitCard || selectedPayment.payment.length <= 0 || selectedPayment.payment === payment.creditCard ? (
+                                        {selectedPayment.payment === payments.debitCard || selectedPayment.payment.length <= 0 || selectedPayment.payment === payments.creditCard ? (
                                             <span>
                                                 R$ {totalPrice.toFixed(2)}
                                             </span>
